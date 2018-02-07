@@ -44,14 +44,19 @@ class RssDownloader {
         $dailyCacheFolder = $this->getCacheFolder("daily");
 
         if (!file_exists($weeklyCacheFolder)) {
-            $this->createFolder($weeklyCacheFolder);
+            Utils::createFolder($weeklyCacheFolder);
         }
 
         if (!file_exists($dailyCacheFolder)) {
-            $this->createFolder($dailyCacheFolder);
+            Utils::createFolder($dailyCacheFolder);
         }
     }
 
+    /**
+     * Given an url, it will attempt to find its feed
+     * @param string $url
+     * @return null|string
+     */
     public function getFeedUrl ($url) {
         $content = $this->curl($url);
         $firstLine = strtok($content, "\n")[0];
@@ -71,6 +76,11 @@ class RssDownloader {
         return $url;
     }
 
+    /**
+     * Downloads and returns all articles published today
+     * @param int $userId
+     * @return array
+     */
     public function getTodayArticles ($userId) {
         $db = new Db($userId);
         $items = [];
@@ -82,9 +92,13 @@ class RssDownloader {
         return $items;
     }
 
+    /**
+     * Downloads and returns articles published today on the given url
+     * @param string $url
+     * @return array
+     */
     public function getTodayArticlesFrom ($url) {
         try {
-            //$slashdotRss = Reader::import($url);
             $slashdotRss = Reader::importString($this->curl($url));
         } catch (RuntimeException $e) {
             return [];
@@ -140,6 +154,11 @@ class RssDownloader {
         return $items;
     }
 
+    /**
+     * Converts http images to base64
+     * @param $html
+     * @return mixed
+     */
     private function imagesTob64 ($html) {
 
         foreach ($html->find('picture') as &$pic) {
@@ -181,18 +200,42 @@ class RssDownloader {
         return $html;
     }
 
+    /**
+     * Checks if given site has any custom setting set in providers.php
+     * @param string $url
+     * @param string $settingType
+     * @return bool
+     */
     private function hasCustomSetting ($url, $settingType) {
         $host = parse_url($url, PHP_URL_HOST);
         return isset($this->providers[$host]) && isset($this->providers[$host][$settingType]);
     }
 
+    /**
+     * Returns any custom setting set in providers.php from that site
+     * @param string $url
+     * @return mixed
+     */
     private function getCustomSettings ($url) {
         return $this->providers[parse_url($url, PHP_URL_HOST)];
     }
+
+    /**
+     * Returns the request settingType from the given url
+     * @param string $url
+     * @param string $settingType
+     * @return mixed
+     */
     private function getCustomSetting ($url, $settingType) {
         return $this->providers[parse_url($url, PHP_URL_HOST)][$settingType];
     }
 
+    /**
+     * Sanitizes html by removing global and site custom css selectors
+     * @param string $url
+     * @param $html
+     * @return mixed
+     */
     private function removeProviderSelectors ($url, $html) {
         if ($this->hasCustomSetting($url, "remove")) {
             $selectors = array_merge($this->selectorsToRemove, $this->getCustomSetting($url, "remove"));
@@ -213,6 +256,12 @@ class RssDownloader {
         return $html;
     }
 
+    /**
+     * Downloads, cleans & prepares for offline use the given article's url
+     * @param string $url
+     * @param string $firstLines First article lines grabbed from rss feed
+     * @return null|string
+     */
     public function getFullArticle ($url, $firstLines) {
         $article = new Article($url);
 
@@ -240,7 +289,7 @@ class RssDownloader {
         return null;
 
         // @ToDo
-        // thisis a work in progress part that attempts to find the article container searching by first article words
+        // this is a work in progress part that attempts to find the article container searching by first article words
         if (substr($firstLines, 0, 1) == "<") { // looks like we have the parent html tag
             $chars = str_split($firstLines);
             $tagType = "";
@@ -272,6 +321,11 @@ class RssDownloader {
         pd($regs);
     }
 
+    /**
+     * Returns cache folder for the requested type
+     * @param string $type
+     * @return string
+     */
     private function getCacheFolder ($type) {
         if ($type == "weekly") {
             $cT = "weekly" . DIRECTORY_SEPARATOR . date("Y_m_w");
@@ -282,13 +336,11 @@ class RssDownloader {
         return  APP_ROOT . App::config("cache.folder") . DIRECTORY_SEPARATOR . $cT . DIRECTORY_SEPARATOR;
     }
 
-    private function createFolder ($path, $recursive = false)
-    {
-        $oldmask = umask(0);
-        mkdir($path, 0775, $recursive);
-        umask($oldmask);
-    }
-
+    /**
+     * Returns the cached file path of the given url
+     * @param string $url
+     * @return string
+     */
     public function getCachePath ($url) {
          // articles may have website static images like icons, so we can recyle them to save bandwitdh
          if (in_array(pathinfo($url, PATHINFO_EXTENSION), $this->validImageExtensions)) {
@@ -300,6 +352,13 @@ class RssDownloader {
         return $cacheType . md5($url);
     }
 
+    /**
+     * Makes a curl request and (if enabled) caches it
+     * @param string $url
+     * @param string $method
+     * @param array $data
+     * @return mixed
+     */
     private function curl ($url, $method = "get", $data = []) {
 
         if (App::config("cache")) {
@@ -355,6 +414,6 @@ class RssDownloader {
             file_put_contents($cachedFile, $content);
         }
 
-        return content;
+        return $content;
     }
 }

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This class interacts with json file that is begin used as db
+ */
+
 namespace App;
 
 class Db {
@@ -13,10 +17,18 @@ class Db {
         $this->userId = $userId;
     }
 
+    /**
+     * Returns db path
+     * @return string
+     */
     private function dbPath () {
         return App::config("db.folder") . "/" . $this->userId . ".json";
     }
 
+    /**
+     * Returns all data from json file
+     * @return array
+     */
     private function getData() {
 
         if (!file_exists($this->dbPath())) {
@@ -26,10 +38,19 @@ class Db {
         return json_decode(file_get_contents($this->dbPath()), true);
     }
 
+    /**
+     * Returns all user added domains
+     * @return array
+     */
     public function list () {
         return $this->getData();
     }
 
+    /**
+     * Saves a new feed to user db
+     * @param string $url
+     * @return bool|int
+     */
     public function add ($url) {
         $data = $this->getData();
 
@@ -42,6 +63,11 @@ class Db {
         return $this->save($data);
     }
 
+    /**
+     * Removes given entry from db
+     * @param string $url
+     * @return bool|int
+     */
     public function del ($url) {
         $data = $this->getData();
 
@@ -54,6 +80,11 @@ class Db {
         return $this->save($data);
     }
 
+    /**
+     * Saves db info into a json file
+     * @param array $data
+     * @return int
+     */
     private function save (array $data) {
         return file_put_contents($this->dbPath(), json_encode($data));
     }

@@ -12,17 +12,24 @@ Images will be converted to base64.
 Gifs are begin ignored.
 
 # Requirements
-- PHP 7.0 (maybe works on older versions, i didn't try)
+- PHP >= 7.0
 - CURL
-- SSL Certificate (telegram bots can only talk to https domains)
+- Composer
+- SSL certificate (telegram bots can only talk to https domains)
 
 # Setup
 
 1. mv `conf.sample.php` to `conf.php`
 2. Create your telegram bot and set its data on `conf.php`
+3. run `composer install`
 3. Done, you may need to create cache folders and give them write perms, those are listed on config file
 
 # Setting manual css selectors to remove
 
 You can edit `providers.php` to add more css selectors that you want bot to remove from each article.
+
+# ToDo
+
+- Improve html sanitization
+
 

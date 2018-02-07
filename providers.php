@@ -1,6 +1,13 @@
 <?php
 
 return [
+    "www.ejercitos.org" => [
+        "remove" => [
+            ".mh-meta.entry-meta",
+            ".mh-author-box",
+            ".yarpp-related"
+        ]
+    ],
     "www.elconfidencial.com" => [
         "selector" => ".news-container",
         "remove" => [

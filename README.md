@@ -5,8 +5,8 @@
 This Telegram bot will automatically download and send back your rss feeds for offline reading.
 The bot is working, but it needs a code refactor to make it easier to maintain/more readable.
 
-1. User to sets [add|list|remove] his rss feed collection 
-2. When /givemethenews command is sent. Bot will then proceed to parse and download the entire articles, clean them and send them back as html attachment for offline reading.
+1. User sets [add|list|remove] his rss feed collection 
+2. When `/givemethenews` command is sent. Bot will then proceed to parse and download the entire articles, clean them and send them back as html attachment for offline reading.
 
 Images will be converted to base64.
 Gifs are begin ignored.
@@ -30,6 +30,6 @@ You can edit `providers.php` to add more css selectors that you want bot to remo
 
 # ToDo
 
-- Improve html sanitization
-
+- Improve html sanitization (remove onmouseover, onclick, etc.. attributes)
+- Add a "share" topbar in `header.html` to make it easier to share the original article with contacts
 

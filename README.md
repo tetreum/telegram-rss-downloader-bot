@@ -1,4 +1,6 @@
-# telegram-rss-downloader-bot
+![telegrambot](https://raw.githubusercontent.com/tetreum/telegram-rss-downloader-bot/master/1.png)
+
+# Telegram rss downloader bot
 
 This Telegram bot will automatically download and send back your rss feeds for offline reading.
 The bot is working, but it needs a code refactor to make it easier to maintain/more readable.
@@ -22,5 +24,5 @@ Gifs are begin ignored.
 
 # Setting manual css selectors to remove
 
-You can edit providers.php to add more css selectors that you want bot to remove from each article.
+You can edit `providers.php` to add more css selectors that you want bot to remove from each article.
 

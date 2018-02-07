@@ -1,0 +1,12 @@
+.idea/
+.sass-cache/
+cache/
+articles/
+conf.php
+.db/
+index.php
+composer.lock
+node_modules
+vendor
+tmp
+deploy.php

@@ -5,7 +5,8 @@ return [
         "remove" => [
             ".mh-meta.entry-meta",
             ".mh-author-box",
-            ".yarpp-related"
+            ".mh-share-buttons",
+            ".yarpp-related",
         ]
     ],
     "www.elconfidencial.com" => [

@@ -14,6 +14,7 @@ return [
     "articles.folder" => "articles",
     "cache.folder" => "cache",
     "cache" => true,
+    "debug" => false,
     "debug.key" => "CHANGE_THIS_VALUE" // lets you run debugging code on browser
     "debug.chatid" => 999999 // place your chatid so debug code can recover your feed db
 ];

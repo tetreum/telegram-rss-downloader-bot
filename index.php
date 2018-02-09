@@ -14,6 +14,7 @@ if (!isset($_GET['debug'])) {
 if ($_GET['debug'] != App::config("debug.key")) {
     exit;
 }
+App::config('debug', true);
 
 function reply ($str) {
     echo $str . "<br>";

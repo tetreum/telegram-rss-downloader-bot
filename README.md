@@ -31,5 +31,4 @@ You can edit `providers.php` to add more css selectors that you want bot to remo
 # ToDo
 
 - Improve html sanitization (remove onmouseover, onclick, etc.. attributes)
-- Add a "share" topbar in `header.html` to make it easier to share the original article with contacts
 - Cronjob to remove old cache files

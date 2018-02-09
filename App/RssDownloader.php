@@ -195,6 +195,7 @@ class RssDownloader {
             }
             $type = pathinfo($src, PATHINFO_EXTENSION);
             $image->attr("src", 'data:image/' . $type . ';base64,' . base64_encode($this->curl($src)));
+            $image->removeAttribute("srcset");
         }
 
         return $html;
@@ -284,7 +285,7 @@ class RssDownloader {
             $html = $this->removeProviderSelectors($url, $html);
             $html = $this->imagesTob64($html);
 
-            return $this->addedHTML . $html->html();
+            return str_replace("{{original_link}}", $url, $this->addedHTML) . $html->html();
         }
         return null;
 

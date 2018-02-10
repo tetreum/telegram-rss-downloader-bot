@@ -22,7 +22,8 @@ Gifs are begin ignored.
 1. mv `conf.sample.php` to `conf.php`
 2. Create your telegram bot and set its data on `conf.php`
 3. run `composer install`
-3. Done, you may need to create cache folders and give them write perms, those are listed on config file
+4. Add `cronjob.php` to your crontab (weekly)
+5. Done, you may need to create cache folders and give them write perms, those are listed on config file
 
 # Setting manual css selectors to remove
 
@@ -31,4 +32,3 @@ You can edit `providers.php` to add more css selectors that you want bot to remo
 # ToDo
 
 - Improve html sanitization (remove onmouseover, onclick, etc.. attributes)
-- Cronjob to remove old cache files

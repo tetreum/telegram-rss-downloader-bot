@@ -353,6 +353,29 @@ class RssDownloader {
         return $cacheType . md5($url);
     }
 
+
+    /**
+    * Removes the old cache from the given type
+    * @param string $type
+    * @return void
+    */
+    public function deleteCache ($type) {
+        if ($type == "weekly") {
+            $currentDate = date("Y_m_w");
+        } else {
+            $currentDate = date("Y_m_d");
+        }
+
+        $folderPath = App::config("cache.folder") . DIRECTORY_SEPARATOR . $type;
+        $dir = new \DirectoryIterator($folderPath);
+
+        foreach ($dir as $fileinfo) {
+            if ($fileinfo->isDir() && !$fileinfo->isDot() && $fileinfo->getFilename() != $currentDate) {
+                Utils::rmdir($folderPath . DIRECTORY_SEPARATOR .$fileinfo->getFilename());
+            }
+        }
+    }
+
     /**
      * Makes a curl request and (if enabled) caches it
      * @param string $url

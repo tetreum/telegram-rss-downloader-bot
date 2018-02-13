@@ -1,6 +1,27 @@
 <?php
 
 return [
+    "feeds.weblogssl.com" => [
+        "remove" => [
+            ".article-social-share",
+            ".article-aside",
+            ".article-metadata-container",
+            ".ad.ad-cen",
+            ".article-links"
+        ],
+        "custom" => function ($html) {
+            foreach ($html->find('img[sf-src]') as &$image) {
+                $src = $image->attr("sf-src");
+
+                if (strpos($src, "http") === false) {
+                    continue;
+                }
+                $image->attr("src", $src);
+            }
+
+            return $html;
+        }
+    ],
     "www.ejercitos.org" => [
         "remove" => [
             ".mh-meta.entry-meta",

@@ -196,6 +196,8 @@ class RssDownloader {
             $type = pathinfo($src, PATHINFO_EXTENSION);
             $image->attr("src", 'data:image/' . $type . ';base64,' . base64_encode($this->curl($src)));
             $image->attr("style", "width: 97vw");
+            $image->removeAttribute("height");
+            $image->removeAttribute("width");
             $image->removeAttribute("srcset");
         }
 
